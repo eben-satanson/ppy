@@ -360,6 +360,7 @@ for idx, movie8 in enumerate(movies8):
 
     if USING_PARPORT:
         win0.callOnFlip(pp.setData, MARKER)
+        win0.callOnFlip(hand0.addData, "MRK_MOV_start", MARKER)
 
     psychopy.event.clearEvents()
     while not movie8.isFinished:
@@ -413,6 +414,7 @@ for idx, movie8 in enumerate(movies8):
 
     if USING_PARPORT:
         win0.callOnFlip(pp.setData, MARKER)
+        win0.callOnFlip(hand0.addData, "MRK_MOV_eval", MARKER)
 
     myRatingScale = psychopy.visual.RatingScale(
         win=win0, choices=choices,
@@ -420,7 +422,7 @@ for idx, movie8 in enumerate(movies8):
         acceptSize=acceptSize,
         acceptPreText=acceptPreText, acceptText=acceptText,
         ## lineColor=(0, 0, 0),
-        markerColor=(1, 1, 1),
+        ## markerColor=(1, 1, 1),
         showValue=False, singleClick=False)
     text0 = (
         "PRAWDA czy KŁAMSTWO?\n\n"
@@ -454,6 +456,7 @@ for idx, movie8 in enumerate(movies8):
 
     if USING_PARPORT:
         win0.callOnFlip(pp.setData, MARKER)
+        win0.callOnFlip(hand0.addData, "MRK_MOV_eval_END", MARKER)
 
     next_entry(hand0, event="conf_eval")
     hand0.addData("movie8.name", movie8.name)
@@ -506,6 +509,7 @@ for idx, movie8 in enumerate(movies8):
     if USING_PARPORT:
         pp.setData(MARKER)
         time.sleep(0.100)
+        hand0.addData("MRK_MOV_conf_eval", MARKER)
 
     if DEBUG_PARPORT:
         print("PARPORT → 0 [FIXED]")
@@ -530,6 +534,7 @@ if DEBUG_PARPORT:
 if USING_PARPORT:
     pp.setData(225)
     time.sleep(0.100)
+    hand0.addData("MRK_MOV_conf_eval", 225)
 
 if DEBUG_PARPORT:
     print("PARPORT → 0 [FIXED]")
