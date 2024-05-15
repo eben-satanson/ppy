@@ -20,7 +20,7 @@ import os
 import uuid
 import json
 import srsly
-import time 
+import time
 import random
 import pathlib
 import pandas as pd
@@ -36,7 +36,6 @@ import psychopy.core
 import psychopy.data
 import psychopy.event
 import psychopy.visual
-import psychopy.parallel
 
 from psychopy.constants import (PLAYING, PAUSED)
 from psychopy import logging as log0
@@ -122,18 +121,28 @@ log2 = log0.LogFile(
     filemode='a',
     level=log_level_file)
 
+USING_PARPORT = True
+USING_PARPORT = False
+
+DEBUG_PARPORT = False
+DEBUG_PARPORT = True
+
+USING_FULLSCR = True
+USING_FULLSCR = False
+
+if USING_PARPORT:
+    import psychopy.parallel
+
 meta2 = Bunch()
 meta2.units = "norm"
 meta2.units = "deg"
 meta2.units = "pix"
-meta2.fullscr = False
-meta2.fullscr = True
+meta2.fullscr = USING_FULLSCR
 meta2.screen = 1
 meta2.screen = 0
 meta2.DISPLAY = ":2"
 meta2.DISPLAY = ":1"
-meta2.parallel = False
-meta2.parallel = True
+meta2.parport = USING_PARPORT
 
 log0.info(jsonable(meta2))
 
@@ -141,8 +150,6 @@ log0.info("INFO")
 log0.debug("DEBUG")
 log0.warning("WARNING")
 
-USING_PARPORT = False
-USING_PARPORT = True
 if USING_PARPORT:
     pp = psychopy.parallel.ParallelPort(address="/dev/parport0")
 
@@ -198,111 +205,6 @@ for file8 in files8:
         volume=0.9,
         autoStart=True)
     movies8.append(movie8)
-
-MARKERS = {}
-MARKERS["RESET"] = 0
-MARKERS["FIX_CROSS"] = 1
-MARKERS["MOVIE"] = {}
-MARKERS["MOVIE"][1] = {}
-MARKERS["MOVIE"][2] = {}
-MARKERS["MOVIE"][3] = {}
-MARKERS["MOVIE"][4] = {}
-MARKERS["MOVIE"][5] = {}
-MARKERS["MOVIE"][6] = {}
-MARKERS["MOVIE"][7] = {}
-MARKERS["MOVIE"][8] = {}
-MARKERS["MOVIE"][9] = {}
-MARKERS["MOVIE"][10] = {}
-MARKERS["MOVIE"][11] = {}
-MARKERS["MOVIE"][12] = {}
-MARKERS["MOVIE"][13] = {}
-MARKERS["MOVIE"][14] = {}
-MARKERS["MOVIE"][15] = {}
-MARKERS["MOVIE"][16] = {}
-MARKERS["MOVIE"][17] = {}
-MARKERS["MOVIE"][18] = {}
-MARKERS["MOVIE"][19] = {}
-MARKERS["MOVIE"][20] = {}
-MARKERS["MOVIE"][1]["BEG"] = 2
-MARKERS["MOVIE"][1]["END"] = 3
-MARKERS["MOVIE"][1]["DEC"] = 4
-MARKERS["MOVIE"][1]["CON"] = 5
-MARKERS["MOVIE"][2]["BEG"] = 6
-MARKERS["MOVIE"][2]["END"] = 7
-MARKERS["MOVIE"][2]["DEC"] = 8
-MARKERS["MOVIE"][2]["CON"] = 9
-MARKERS["MOVIE"][3]["BEG"] = 10
-MARKERS["MOVIE"][3]["END"] = 11
-MARKERS["MOVIE"][3]["DEC"] = 12
-MARKERS["MOVIE"][3]["CON"] = 13
-MARKERS["MOVIE"][4]["BEG"] = 14
-MARKERS["MOVIE"][4]["END"] = 15
-MARKERS["MOVIE"][4]["DEC"] = 16
-MARKERS["MOVIE"][4]["CON"] = 17
-MARKERS["MOVIE"][5]["BEG"] = 18
-MARKERS["MOVIE"][5]["END"] = 19
-MARKERS["MOVIE"][5]["DEC"] = 20
-MARKERS["MOVIE"][5]["CON"] = 21
-MARKERS["MOVIE"][6]["BEG"] = 22
-MARKERS["MOVIE"][6]["END"] = 23
-MARKERS["MOVIE"][6]["DEC"] = 24
-MARKERS["MOVIE"][6]["CON"] = 25
-MARKERS["MOVIE"][7]["BEG"] = 26
-MARKERS["MOVIE"][7]["END"] = 27
-MARKERS["MOVIE"][7]["DEC"] = 28
-MARKERS["MOVIE"][7]["CON"] = 29
-MARKERS["MOVIE"][8]["BEG"] = 30
-MARKERS["MOVIE"][8]["END"] = 31
-MARKERS["MOVIE"][8]["DEC"] = 32
-MARKERS["MOVIE"][8]["CON"] = 33
-MARKERS["MOVIE"][9]["BEG"] = 34
-MARKERS["MOVIE"][9]["END"] = 35
-MARKERS["MOVIE"][9]["DEC"] = 36
-MARKERS["MOVIE"][9]["CON"] = 37
-MARKERS["MOVIE"][10]["BEG"] = 38
-MARKERS["MOVIE"][10]["END"] = 39
-MARKERS["MOVIE"][10]["DEC"] = 40
-MARKERS["MOVIE"][10]["CON"] = 41
-MARKERS["MOVIE"][11]["BEG"] = 42
-MARKERS["MOVIE"][11]["END"] = 43
-MARKERS["MOVIE"][11]["DEC"] = 44
-MARKERS["MOVIE"][11]["CON"] = 45
-MARKERS["MOVIE"][12]["BEG"] = 46
-MARKERS["MOVIE"][12]["END"] = 47
-MARKERS["MOVIE"][12]["DEC"] = 48
-MARKERS["MOVIE"][12]["CON"] = 49
-MARKERS["MOVIE"][13]["BEG"] = 50
-MARKERS["MOVIE"][13]["END"] = 51
-MARKERS["MOVIE"][13]["DEC"] = 52
-MARKERS["MOVIE"][13]["CON"] = 53
-MARKERS["MOVIE"][14]["BEG"] = 54
-MARKERS["MOVIE"][14]["END"] = 55
-MARKERS["MOVIE"][14]["DEC"] = 56
-MARKERS["MOVIE"][14]["CON"] = 57
-MARKERS["MOVIE"][15]["BEG"] = 58
-MARKERS["MOVIE"][15]["END"] = 59
-MARKERS["MOVIE"][15]["DEC"] = 60
-MARKERS["MOVIE"][15]["CON"] = 61
-MARKERS["MOVIE"][16]["BEG"] = 62
-MARKERS["MOVIE"][16]["END"] = 63
-MARKERS["MOVIE"][16]["DEC"] = 64
-MARKERS["MOVIE"][16]["CON"] = 65
-MARKERS["MOVIE"][17]["BEG"] = 66
-MARKERS["MOVIE"][17]["END"] = 67
-MARKERS["MOVIE"][17]["DEC"] = 68
-MARKERS["MOVIE"][17]["CON"] = 69
-MARKERS["MOVIE"][18]["BEG"] = 70
-MARKERS["MOVIE"][18]["END"] = 71
-MARKERS["MOVIE"][18]["DEC"] = 72
-MARKERS["MOVIE"][18]["CON"] = 73
-MARKERS["MOVIE"][19]["BEG"] = 74
-MARKERS["MOVIE"][19]["END"] = 75
-MARKERS["MOVIE"][19]["DEC"] = 76
-MARKERS["MOVIE"][19]["CON"] = 77
-MARKERS["MOVIE"][20]["BEG"] = 78
-MARKERS["MOVIE"][20]["END"] = 79
-MARKERS["MOVIE"][20]["DEC"] = 80
-MARKERS["MOVIE"][20]["CON"] = 81
 
 
 D1 = 0.20
@@ -370,7 +272,7 @@ text0 = (
     "\n\n"
     "Proszę o uważne obejrzenie każdego filmu i spontaniczną ocenę bez długiego namysłu. "
     "\n\n"
-    "Aby rozpocząć badanie proszę nacisnąć SPACJĘ.")
+    "Aby rozpocząć badanie proszę nacisnąć LEWY PRZYCISK MYSZKI.")
 instr0 = psychopy.visual.TextStim(
     win=win0, text=text0,
     pos=(0.0, 0.0), height=0.08,
@@ -389,6 +291,9 @@ win0.callOnFlip(hand0.addData, "clock_glob", clock_glob.getTime())
 win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
 win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
 
+mouse0 = psychopy.event.Mouse(win=win0)
+mouse0.clickReset()
+
 begin0 = False
 psychopy.event.clearEvents()
 while not begin0:
@@ -396,6 +301,10 @@ while not begin0:
     win0.flip()
     keys0 = psychopy.event.getKeys(
         keyList=["q", "escape", "space"])
+    butt0 = mouse0.getPressed(getTime=False)
+    if butt0[0] == 1:
+        begin0 = True
+
     if len(keys0) > 0:
         for key in keys0:
             if key in ["escape", "q"]:
@@ -410,17 +319,23 @@ while not begin0:
 choices = ["KŁAMSTWO", "PRAWDA"]
 random.shuffle(choices)
 
-if USING_PARPORT:
-    win0.callOnFlip(pp.setData, MARKERS["FIX_CROSS"])
+if DEBUG_PARPORT:
+    win0.callOnFlip(print, "PARPORT → 222")
 
+if USING_PARPORT:
+    win0.callOnFlip(pp.setData, 222)
 
 acceptPreText = "Proszę wybrać"
 acceptText = "Dalej"
 acceptSize = 1.5
 psychopy.event.clearEvents()
+MARKER = 0
 
 for idx, movie8 in enumerate(movies8):
     idx += 1
+    if DEBUG_PARPORT:
+        print("PARPORT → 0 [FIXED]")
+
     if USING_PARPORT:
         pp.setData(0)
         time.sleep(0.100)
@@ -439,8 +354,12 @@ for idx, movie8 in enumerate(movies8):
     win0.callOnFlip(hand0.addData, "clock_glob", clock_glob.getTime())
     win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
     win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
+    MARKER += 1
+    if DEBUG_PARPORT:
+        win0.callOnFlip(print, f"PARPORT → {MARKER}")
+
     if USING_PARPORT:
-        win0.callOnFlip(pp.setData, MARKERS["MOVIE"][idx]["BEG"])
+        win0.callOnFlip(pp.setData, MARKER)
 
     psychopy.event.clearEvents()
     while not movie8.isFinished:
@@ -472,6 +391,9 @@ for idx, movie8 in enumerate(movies8):
                 else:
                     raise RuntimeError("WTF: Invalid key in the movie display block!")
 
+    if DEBUG_PARPORT:
+        print("PARPORT → 0 [FIXED]")
+
     if USING_PARPORT:
         pp.setData(0)
         time.sleep(0.100)
@@ -485,8 +407,12 @@ for idx, movie8 in enumerate(movies8):
     win0.callOnFlip(hand0.addData, "clock_glob", clock_glob.getTime())
     win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
     win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
+    MARKER += 1
+    if DEBUG_PARPORT:
+        win0.callOnFlip(print, f"PARPORT → {MARKER}")
+
     if USING_PARPORT:
-        win0.callOnFlip(pp.setData, MARKERS["MOVIE"][idx]["END"])
+        win0.callOnFlip(pp.setData, MARKER)
 
 
     myRatingScale = psychopy.visual.RatingScale(
@@ -494,6 +420,8 @@ for idx, movie8 in enumerate(movies8):
         marker="triangle", stretch=1.5, tickHeight=1.5,
         acceptSize=acceptSize,
         acceptPreText=acceptPreText, acceptText=acceptText,
+        lineColor=(0, 0, 0),
+        markerColor=(1, 1, 1),
         showValue=False, singleClick=False)
     text0 = (
         "PRAWDA czy KŁAMSTWO?\n\n"
@@ -508,10 +436,12 @@ for idx, movie8 in enumerate(movies8):
             win0.close()
             psychopy.core.quit()
 
+    if DEBUG_PARPORT:
+        print("PARPORT → 0 [FIXED]")
+
     if USING_PARPORT:
         pp.setData(0)
         time.sleep(0.100)
-
 
     hand0.addData("myRatingScale.getRT", myRatingScale.getRT())
     hand0.addData("myRatingScale.getRating", myRatingScale.getRating())
@@ -519,8 +449,12 @@ for idx, movie8 in enumerate(movies8):
     log0.info(f"{myRatingScale.getRT() = }")
     log0.info(f"{myRatingScale.getRating() = }")
     log0.info(f"{myRatingScale.getHistory() = }")
+    MARKER += 1
+    if DEBUG_PARPORT:
+        win0.callOnFlip(print, f"PARPORT → {MARKER}")
+
     if USING_PARPORT:
-        win0.callOnFlip(pp.setData, MARKERS["MOVIE"][idx]["DEC"])
+        win0.callOnFlip(pp.setData, MARKER)
 
     next_entry(hand0, event="conf_eval")
     hand0.addData("movie8.name", movie8.name)
@@ -537,6 +471,7 @@ for idx, movie8 in enumerate(movies8):
         tickMarks=[1, 2, 3, 4, 5, 6, 7],
         labels=["całkowity brak pewności", "", "", "", "", "", "całkowita pewność"],
         acceptSize=acceptSize,
+        markerColor=(1, 1, 1),
         acceptPreText=acceptPreText, acceptText=acceptText,
         showValue=False, singleClick=False)
     text0 = (
@@ -558,25 +493,49 @@ for idx, movie8 in enumerate(movies8):
     log0.info(f"{myRatingScale.getRT() = }")
     log0.info(f"{myRatingScale.getRating() = }")
     log0.info(f"{myRatingScale.getHistory() = }")
+    if DEBUG_PARPORT:
+        print("PARPORT → 0 [FIXED]")
+
     if USING_PARPORT:
-        win0.callOnFlip(pp.setData, MARKERS["MOVIE"][idx]["DEC"])
+        pp.setData(0)
         time.sleep(0.100)
+
+    MARKER += 1
+    if DEBUG_PARPORT:
+        print(f"PARPORT → {MARKER} [FIXED]")
+
+    if USING_PARPORT:
+        pp.setData(MARKER)
+        time.sleep(0.100)
+
+    if DEBUG_PARPORT:
+        print("PARPORT → 0 [FIXED]")
 
     if USING_PARPORT:
         pp.setData(0)
         time.sleep(0.100)
 
 
+next_entry(hand0, event="experiment_ended")
+
+if DEBUG_PARPORT:
+    print("PARPORT → 0 [FIXED]")
+
 if USING_PARPORT:
     pp.setData(0)
     time.sleep(0.100)
 
-next_entry(hand0, event="experiment_ended")
+if DEBUG_PARPORT:
+    print("PARPORT → 225 [FIXED]")
+
 if USING_PARPORT:
-    pp.setData(214)
+    pp.setData(225)
     time.sleep(0.100)
-    pp.setData(214)
-    time.sleep(0.100)
+
+if DEBUG_PARPORT:
+    print("PARPORT → 0 [FIXED]")
+
+if USING_PARPORT:
     pp.setData(0)
     time.sleep(0.100)
 
@@ -622,9 +581,9 @@ while not begin0:
 
 
 if USING_PARPORT:
-    pp.setData(214)
+    pp.setData(221)
     time.sleep(0.100)
-    pp.setData(214)
+    pp.setData(221)
     time.sleep(0.100)
     pp.setData(0)
     time.sleep(0.100)
