@@ -127,8 +127,8 @@ DEBUG_PARPORT = True
 USING_PARPORT = False
 USING_PARPORT = True
 
-USING_FULLSCR = False
 USING_FULLSCR = True
+USING_FULLSCR = False
 
 if USING_PARPORT:
     import psychopy.parallel
