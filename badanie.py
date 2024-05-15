@@ -124,11 +124,11 @@ log2 = log0.LogFile(
 DEBUG_PARPORT = False
 DEBUG_PARPORT = True
 
-USING_PARPORT = True
 USING_PARPORT = False
+USING_PARPORT = True
 
-USING_FULLSCR = True
 USING_FULLSCR = False
+USING_FULLSCR = True
 
 if USING_PARPORT:
     import psychopy.parallel
