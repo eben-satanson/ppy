@@ -121,11 +121,11 @@ log2 = log0.LogFile(
     filemode='a',
     level=log_level_file)
 
-USING_PARPORT = True
-USING_PARPORT = False
-
 DEBUG_PARPORT = False
 DEBUG_PARPORT = True
+
+USING_PARPORT = True
+USING_PARPORT = False
 
 USING_FULLSCR = True
 USING_FULLSCR = False
@@ -413,7 +413,6 @@ for idx, movie8 in enumerate(movies8):
 
     if USING_PARPORT:
         win0.callOnFlip(pp.setData, MARKER)
-
 
     myRatingScale = psychopy.visual.RatingScale(
         win=win0, choices=choices,
