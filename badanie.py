@@ -420,7 +420,7 @@ for idx, movie8 in enumerate(movies8):
         marker="triangle", stretch=1.5, tickHeight=1.5,
         acceptSize=acceptSize,
         acceptPreText=acceptPreText, acceptText=acceptText,
-        lineColor=(0, 0, 0),
+        ## lineColor=(0, 0, 0),
         markerColor=(1, 1, 1),
         showValue=False, singleClick=False)
     text0 = (
