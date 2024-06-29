@@ -3,14 +3,7 @@
 
 """
 TODOs:
-- [x] now0
-- [x] sub0
-- [x] timing (clocks)
-- [x] logging in PsychoPy
-- [x] logging in Python
-- [x] logging to file
 - [ ] save data after every movie
-- [x] send markers to EEG (PyParallel)
 - [ ] cleanup
 - [ ] final testing
 
@@ -89,6 +82,11 @@ dlg0.addField(label="Session:", initial="s01", required=True)
 dlg0.addField(label="Run:", initial="r01", required=True)
 dlg0.addField(label="Age:", initial="", required=False)
 dlg0.addField(label="Gender:", initial="", required=False)
+dlg0.addText('Experiment Info')
+dlg0.addField('Movies:', choices=["init", "prod", "test", "temp"])
+dlg0.addField('ParPort:', choices=[True, False])
+dlg0.addField('ParPortDebug:', choices=[True, False])
+dlg0.addField('FullScreen:', choices=[True, False])
 dlg0.addText("PsychoPy info")
 dlg0.addFixedField(label="Version:", initial=psychopy.__version__)
 list0 = dlg0.show()
@@ -96,12 +94,17 @@ log0.info(f"\n{jsonable(list0)}")
 if not dlg0.OK:
     psychopy.core.quit()
 
+
 meta0.sub0 = list0[0]
 meta0.ses0 = list0[1]
 meta0.run0 = list0[2]
 meta0.age0 = list0[3]
 meta0.sex0 = list0[4]
-meta0.ver0 = list0[5]
+meta0.mov0 = list0[5]
+meta0.par0 = list0[6]
+meta0.deb0 = list0[7]
+meta0.scr0 = list0[8]
+meta0.ver0 = list0[9]
 
 meta0.dir0 = f"logs/sub-{meta0.sub0}/ses-{meta0.ses0}/run-{meta0.run0}/date-{meta0.now0}"
 meta0.dir0 = pathlib.Path(meta0.dir0)
@@ -121,14 +124,17 @@ log2 = log0.LogFile(
     filemode='a',
     level=log_level_file)
 
-DEBUG_PARPORT = False
 DEBUG_PARPORT = True
+DEBUG_PARPORT = False
+DEBUG_PARPORT = meta0.deb0
 
-USING_PARPORT = False
 USING_PARPORT = True
+USING_PARPORT = False
+USING_PARPORT = meta0.par0
 
 USING_FULLSCR = True
 USING_FULLSCR = False
+USING_FULLSCR = meta0.scr0
 
 if USING_PARPORT:
     import psychopy.parallel
@@ -185,8 +191,8 @@ win0 = psychopy.visual.Window(
     # useFBO=True,
     units=meta2.units,
 )
-dir8 = pathlib.Path("movies")
-files8 = sorted(dir8.glob("z*.mp4"))
+dir8 = pathlib.Path("movies")/meta0.mov0
+files8 = sorted(dir8.glob("z*.mkv"))
 assert len(files8) > 0, "WTF: No movies!"
 random.shuffle(files8)
 movies8 = []
@@ -473,7 +479,7 @@ for idx, movie8 in enumerate(movies8):
         tickMarks=[1, 2, 3, 4, 5, 6, 7],
         labels=["całkowity brak pewności", "", "", "", "", "", "całkowita pewność"],
         acceptSize=acceptSize,
-        markerColor=(1, 1, 1),
+        # markerColor=(1, 1, 1),
         acceptPreText=acceptPreText, acceptText=acceptText,
         showValue=False, singleClick=False)
     text0 = (
@@ -554,7 +560,7 @@ df0 = pd.DataFrame(hand0.entries)
 df0.to_csv("last-run.csv", index=False)
 df0.to_csv(meta0.file0.with_suffix(".data0.csv"), index=False)
 
-text0 = ("Dziekuję za udział w badaniu.")
+text0 = ("Dziękujemy za udział w badaniu!")
 instr0 = psychopy.visual.TextStim(
     win=win0, text=text0,
     pos=(0.0, 0.0), height=0.08,
