@@ -288,9 +288,7 @@ instr0 = psychopy.visual.TextStim(
     win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
 )
 
-text2 = (
-    "Przerwa. " "\n\n" "Aby kontynuować badanie proszę nacisnąć LEWY PRZYCISK MYSZKI."
-)
+text2 = "Przerwa. " "\n\n" "Aby kontynuować badanie proszę nacisnąć SPACJĘ."
 pause2 = psychopy.visual.TextStim(
     win=win0, text=text2, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
 )
@@ -347,7 +345,50 @@ acceptSize = 1.5
 psychopy.event.clearEvents()
 MARKER = 0
 
+movies_total = len(movies8)
+movies_half = int(len(movies8) / 2)
+movies_min = 2
+
+log0.info(f"{movies_total = }")
+log0.info(f"{movies_half = }")
+log0.info(f"{movies_min = }")
+
 for idx, movie8 in enumerate(movies8):
+    if idx >= movies_min:
+        if idx == movies_half:
+            next_entry(hand0, event="PAUSE_start")
+            win0.callOnFlip(hand0.addData, "clock_mono", clock_mono.getTime())
+            win0.callOnFlip(hand0.addData, "clock_glob", clock_glob.getTime())
+            win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
+            win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
+
+            mouse0 = psychopy.event.Mouse(win=win0)
+            mouse0.clickReset()
+
+            unpause0 = False
+            psychopy.event.clearEvents()
+            while not unpause0:
+                pause2.draw()
+                win0.flip()
+                keys0 = psychopy.event.getKeys(keyList=["q", "escape", "space"])
+                butt0 = mouse0.getPressed(getTime=False)
+                """
+                if butt0[0] == 1:
+                    unpause0 = True
+                """
+
+                if len(keys0) > 0:
+                    for key in keys0:
+                        if key in ["escape", "q"]:
+                            win0.close()
+                            psychopy.core.quit()
+                        elif key in ["space"]:
+                            unpause0 = True
+                        else:
+                            raise RuntimeError(
+                                "WTF: Invalid key in the instruction block!"
+                            )
+
     idx += 1
     if DEBUG_PARPORT:
         print("PARPORT → 0 [FIXED]")
@@ -359,6 +400,10 @@ for idx, movie8 in enumerate(movies8):
     next_entry(hand0, event="fixation")
     fix_dur = 2
     hand0.addData("duration", fix_dur)
+    win0.callOnFlip(hand0.addData, "clock_mono", clock_mono.getTime())
+    win0.callOnFlip(hand0.addData, "clock_glob", clock_glob.getTime())
+    win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
+    win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
     fixation_cross(fix_dur)
 
     next_entry(hand0, event="movie_start")
@@ -386,6 +431,7 @@ for idx, movie8 in enumerate(movies8):
         key_list = ["p", "q", "s", "escape", "space"]
         key_list = ["p", "q", "escape", "space"]
         key_list = ["p", "q", "escape"]
+        key_list = ["f", "p", "q", "escape"]
         keys0 = psychopy.event.getKeys(keyList=key_list)
         if len(keys0) > 0:
             for key in keys0:
@@ -394,6 +440,8 @@ for idx, movie8 in enumerate(movies8):
                     psychopy.core.quit()
                 elif key in ["s"]:
                     movie8.stop()
+                elif key in ["f"]:
+                    movie8.fastForward(seconds=5)
                 elif key in ["space", "p"]:
                     if movie8.status == PLAYING:
                         print("PAUSE")
