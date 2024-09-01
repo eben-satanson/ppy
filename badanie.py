@@ -21,7 +21,7 @@ from datetime import datetime as dt
 from pytz import timezone as tz
 from sklearn.utils import Bunch
 
-from typing import (Dict, Mapping)
+from typing import Dict, Mapping
 
 import psychopy
 import psychopy.gui
@@ -30,7 +30,7 @@ import psychopy.data
 import psychopy.event
 import psychopy.visual
 
-from psychopy.constants import (PLAYING, PAUSED)
+from psychopy.constants import PLAYING, PAUSED
 from psychopy import logging as log0
 from psychopy import plugins
 from psychopy import prefs
@@ -64,9 +64,9 @@ log0.console.setLevel(log_level_term)
 
 def jsonable(obj: Mapping, types=False) -> Dict:
     """JSONablify."""
+
     def default(o):
-        return f"<<non-serializable: {type(o).__qualname__}>>" if types \
-            else f"{o}"
+        return f"<<non-serializable: {type(o).__qualname__}>>" if types else f"{o}"
 
     return json.loads(json.dumps(obj, default=default))
 
@@ -82,11 +82,11 @@ dlg0.addField(label="Session:", initial="s01", required=True)
 dlg0.addField(label="Run:", initial="r01", required=True)
 dlg0.addField(label="Age:", initial="", required=False)
 dlg0.addField(label="Gender:", initial="", required=False)
-dlg0.addText('Experiment Info')
-dlg0.addField('Movies:', choices=["init", "prod", "test", "temp"])
-dlg0.addField('ParPort:', choices=[True, False])
-dlg0.addField('ParPortDebug:', choices=[True, False])
-dlg0.addField('FullScreen:', choices=[True, False])
+dlg0.addText("Experiment Info")
+dlg0.addField("Movies:", choices=["init", "prod", "test", "temp"])
+dlg0.addField("ParPort:", choices=[True, False])
+dlg0.addField("ParPortDebug:", choices=[True, False])
+dlg0.addField("FullScreen:", choices=[True, False])
 dlg0.addText("PsychoPy info")
 dlg0.addFixedField(label="Version:", initial=psychopy.__version__)
 list0 = dlg0.show()
@@ -106,23 +106,25 @@ meta0.deb0 = list0[7]
 meta0.scr0 = list0[8]
 meta0.ver0 = list0[9]
 
-meta0.dir0 = f"logs/sub-{meta0.sub0}/ses-{meta0.ses0}/run-{meta0.run0}/date-{meta0.now0}"
+meta0.dir0 = (
+    f"logs/sub-{meta0.sub0}/ses-{meta0.ses0}/run-{meta0.run0}/date-{meta0.now0}"
+)
 meta0.dir0 = pathlib.Path(meta0.dir0)
 meta0.dir0.mkdir(mode=0o700, parents=True, exist_ok=True)
 
-meta0.file0 = meta0.dir0/(
+meta0.file0 = meta0.dir0 / (
     f"sub-{meta0.sub0}"
     f"_ses-{meta0.ses0}"
     f"_run-{meta0.run0}"
     f"_date-{meta0.now0}"
-    f"_uuid-{uuid.uuid4()}")
+    f"_uuid-{uuid.uuid4()}"
+)
 
 log0.info(jsonable(meta0))
 
 log2 = log0.LogFile(
-    meta0.file0.with_suffix(".log").as_posix(),
-    filemode='a',
-    level=log_level_file)
+    meta0.file0.with_suffix(".log").as_posix(), filemode="a", level=log_level_file
+)
 
 DEBUG_PARPORT = True
 DEBUG_PARPORT = False
@@ -160,7 +162,8 @@ if USING_PARPORT:
     pp = psychopy.parallel.ParallelPort(address="/dev/parport0")
 
 hand0 = psychopy.data.ExperimentHandler(
-    dataFileName=str(meta0.file0), autoLog=True, savePickle=False)
+    dataFileName=str(meta0.file0), autoLog=True, savePickle=False
+)
 
 os.environ["DISPLAY"] = meta2.DISPLAY
 
@@ -191,7 +194,7 @@ win0 = psychopy.visual.Window(
     # useFBO=True,
     units=meta2.units,
 )
-dir8 = pathlib.Path("movies")/meta0.mov0
+dir8 = pathlib.Path("movies") / meta0.mov0
 files8 = sorted(dir8.glob("z*.mkv"))
 assert len(files8) > 0, "WTF: No movies!"
 random.shuffle(files8)
@@ -209,14 +212,19 @@ for file8 in files8:
         flipVert=False,
         flipHoriz=False,
         volume=0.9,
-        autoStart=True)
+        autoStart=True,
+    )
     movies8.append(movie8)
 
 
 D1 = 0.20
 D2 = 2.00
-cross2v = psychopy.visual.GratingStim(win=win0, size=[D1, D2], pos=(0.0, 0.0), sf=0, color=(0.5, -1, -1))
-cross2h = psychopy.visual.GratingStim(win=win0, size=[D2, D1], pos=(0.0, 0.0), sf=0, color=(0.5, -1, -1))
+cross2v = psychopy.visual.GratingStim(
+    win=win0, size=[D1, D2], pos=(0.0, 0.0), sf=0, color=(0.5, -1, -1)
+)
+cross2h = psychopy.visual.GratingStim(
+    win=win0, size=[D2, D1], pos=(0.0, 0.0), sf=0, color=(0.5, -1, -1)
+)
 
 
 def fixation_cross(duration_sec):
@@ -254,14 +262,10 @@ def next_entry(handler, event):
     handler.addData("event", event)
 
 
-text0 = (
-    "p: Play/Pause/Resume\n"
-    "s: Stop\n"
-    "q: Stop and Close\n")
+text0 = "p: Play/Pause/Resume\n" "s: Stop\n" "q: Stop and Close\n"
 ctrls0 = psychopy.visual.TextStim(
-    win=win0, text=text0,
-    pos=(0.0, 0.0), height=0.08,
-    units="norm", wrapWidth=1.9)
+    win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+)
 
 text0 = (
     "Za chwilę zobaczą Państwo krótkie wypowiedzi 20 osób. "
@@ -278,11 +282,18 @@ text0 = (
     "\n\n"
     "Proszę o uważne obejrzenie każdego filmu i spontaniczną ocenę bez długiego namysłu. "
     "\n\n"
-    "Aby rozpocząć badanie proszę nacisnąć LEWY PRZYCISK MYSZKI.")
+    "Aby rozpocząć badanie proszę nacisnąć LEWY PRZYCISK MYSZKI."
+)
 instr0 = psychopy.visual.TextStim(
-    win=win0, text=text0,
-    pos=(0.0, 0.0), height=0.08,
-    units="norm", wrapWidth=1.9)
+    win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+)
+
+text2 = (
+    "Przerwa. " "\n\n" "Aby kontynuować badanie proszę nacisnąć LEWY PRZYCISK MYSZKI."
+)
+pause2 = psychopy.visual.TextStim(
+    win=win0, text=text2, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+)
 
 
 if USING_PARPORT:
@@ -305,8 +316,7 @@ psychopy.event.clearEvents()
 while not begin0:
     instr0.draw()
     win0.flip()
-    keys0 = psychopy.event.getKeys(
-        keyList=["q", "escape", "space"])
+    keys0 = psychopy.event.getKeys(keyList=["q", "escape", "space"])
     butt0 = mouse0.getPressed(getTime=False)
     if butt0[0] == 1:
         begin0 = True
@@ -376,8 +386,7 @@ for idx, movie8 in enumerate(movies8):
         key_list = ["p", "q", "s", "escape", "space"]
         key_list = ["p", "q", "escape", "space"]
         key_list = ["p", "q", "escape"]
-        keys0 = psychopy.event.getKeys(
-            keyList=key_list)
+        keys0 = psychopy.event.getKeys(keyList=key_list)
         if len(keys0) > 0:
             for key in keys0:
                 if key in ["escape", "q"]:
@@ -393,7 +402,9 @@ for idx, movie8 in enumerate(movies8):
                         print("RESUME")
                         movie8.play()
                     else:
-                        raise RuntimeError("WTF: Movie status is neither PLAY nor PAUSE!")
+                        raise RuntimeError(
+                            "WTF: Movie status is neither PLAY nor PAUSE!"
+                        )
 
                 else:
                     raise RuntimeError("WTF: Invalid key in the movie display block!")
@@ -423,17 +434,23 @@ for idx, movie8 in enumerate(movies8):
         win0.callOnFlip(hand0.addData, "MRK_MOV_eval", MARKER)
 
     myRatingScale = psychopy.visual.RatingScale(
-        win=win0, choices=choices,
-        marker="triangle", stretch=1.5, tickHeight=1.5,
+        win=win0,
+        choices=choices,
+        marker="triangle",
+        stretch=1.5,
+        tickHeight=1.5,
         acceptSize=acceptSize,
-        acceptPreText=acceptPreText, acceptText=acceptText,
+        acceptPreText=acceptPreText,
+        acceptText=acceptText,
         ## lineColor=(0, 0, 0),
         ## markerColor=(1, 1, 1),
-        showValue=False, singleClick=False)
-    text0 = (
-        "PRAWDA czy KŁAMSTWO?\n\n"
-        "Prosze wybrać klikając na poniższą skalę.")
-    scale_TF_instr = psychopy.visual.TextStim(win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9)
+        showValue=False,
+        singleClick=False,
+    )
+    text0 = "PRAWDA czy KŁAMSTWO?\n\n" "Prosze wybrać klikając na poniższą skalę."
+    scale_TF_instr = psychopy.visual.TextStim(
+        win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+    )
     psychopy.event.clearEvents()
     while myRatingScale.noResponse:
         scale_TF_instr.draw()
@@ -474,18 +491,25 @@ for idx, movie8 in enumerate(movies8):
     win0.callOnFlip(hand0.addData, "clock_main", clock_main.getTime())
     win0.callOnFlip(hand0.addData, "clock_resp", clock_resp.getTime())
     myRatingScale = psychopy.visual.RatingScale(
-        win=win0, low=1, high=7,
-        marker="triangle", stretch=1.5, tickHeight=1.5,
+        win=win0,
+        low=1,
+        high=7,
+        marker="triangle",
+        stretch=1.5,
+        tickHeight=1.5,
         tickMarks=[1, 2, 3, 4, 5, 6, 7],
         labels=["całkowity brak pewności", "", "", "", "", "", "całkowita pewność"],
         acceptSize=acceptSize,
         # markerColor=(1, 1, 1),
-        acceptPreText=acceptPreText, acceptText=acceptText,
-        showValue=False, singleClick=False)
-    text0 = (
-        "Pewność dokonanej oceny.\n\n"
-        "Prosze wybrać klikając na poniższą skalę.")
-    scale_CF_instr = psychopy.visual.TextStim(win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9)
+        acceptPreText=acceptPreText,
+        acceptText=acceptText,
+        showValue=False,
+        singleClick=False,
+    )
+    text0 = "Pewność dokonanej oceny.\n\n" "Prosze wybrać klikając na poniższą skalę."
+    scale_CF_instr = psychopy.visual.TextStim(
+        win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+    )
     psychopy.event.clearEvents()
     while myRatingScale.noResponse:
         scale_CF_instr.draw()
@@ -553,18 +577,23 @@ srsly.write_yaml(meta0.file0.with_suffix(".meta0.yaml"), jsonable(meta0))
 srsly.write_yaml(meta0.file0.with_suffix(".meta2.yaml"), jsonable(meta2))
 srsly.write_yaml(meta0.file0.with_suffix(".hand0.yaml"), jsonable(hand0.entries))
 hand0.saveAsWideText(
-    meta0.file0.with_suffix(".hand0.csv"), delim=",", matrixOnly=False, appendFile=None,
-    encoding='utf-8-sig', fileCollisionMethod='rename', sortColumns=None)
+    meta0.file0.with_suffix(".hand0.csv"),
+    delim=",",
+    matrixOnly=False,
+    appendFile=None,
+    encoding="utf-8-sig",
+    fileCollisionMethod="rename",
+    sortColumns=None,
+)
 
 df0 = pd.DataFrame(hand0.entries)
 df0.to_csv("last-run.csv", index=False)
 df0.to_csv(meta0.file0.with_suffix(".data0.csv"), index=False)
 
-text0 = ("Dziękujemy za udział w badaniu!")
+text0 = "Dziękujemy za udział w badaniu!"
 instr0 = psychopy.visual.TextStim(
-    win=win0, text=text0,
-    pos=(0.0, 0.0), height=0.08,
-    units="norm", wrapWidth=1.9)
+    win=win0, text=text0, pos=(0.0, 0.0), height=0.08, units="norm", wrapWidth=1.9
+)
 
 next_entry(hand0, event="thanks_start")
 win0.callOnFlip(hand0.addData, "clock_mono", clock_mono.getTime())
@@ -577,8 +606,7 @@ psychopy.event.clearEvents()
 while not begin0:
     instr0.draw()
     win0.flip()
-    keys0 = psychopy.event.getKeys(
-        keyList=["q", "escape", "space"])
+    keys0 = psychopy.event.getKeys(keyList=["q", "escape", "space"])
     if len(keys0) > 0:
         for key in keys0:
             if key in ["escape", "q"]:
@@ -597,6 +625,6 @@ if USING_PARPORT:
     time.sleep(0.100)
     pp.setData(0)
     time.sleep(0.100)
-            
+
 win0.close()
 psychopy.core.quit()
